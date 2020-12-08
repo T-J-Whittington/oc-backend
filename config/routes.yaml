@@ -1,0 +1,17 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+get_orders:
+  path: /order/getorders
+  controller: App\Controller\OrderController::getOrders
+  methods: GET|POST
+
+get_order:
+  path: /order/getorder.{_format}
+  controller: App\Controller\OrderController::getOrder
+  methods: GET|POST
+
+add_order:
+  path: /order/addorder.{_format}
+  controller: App\Controller\OrderController::addOrder
+  methods: POST

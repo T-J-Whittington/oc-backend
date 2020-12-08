@@ -1,8 +1,12 @@
 <?php
 
-use Symfony\Component\Routing\Annotation\Route;
+namespace App\Controller;
 
-class OrderController
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+
+class OrderController extends AbstractController
 {
 
     private $db;
@@ -22,7 +26,7 @@ class OrderController
      * @Route("/getOrders")
      * @return array
      */
-    public function getOrders()
+    public function getOrders(): Response
     {
         $stmt = $this->db->prepare("
             SELECT o.id,
