@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use PDO;
 
 class OrderController extends AbstractController
 {
@@ -23,10 +26,9 @@ class OrderController extends AbstractController
 
     /**
      * Get a lightly detailed list of all orders
-     * @Route("/getOrders")
-     * @return array
+     * @return Response
      */
-    public function getOrders(): Response
+    public function getOrders()
     {
         $stmt = $this->db->prepare("
             SELECT o.id,
@@ -43,15 +45,19 @@ class OrderController extends AbstractController
             ");
 
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $response = new JsonResponse();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
     /**
      * Get detailed information on a single order.
-     * @Route("/getOrder")
-     * @return array
+     * @param Request
+     * @return Response
      */
-    public function getOrder()
+    public function getOrder(Request $request)
     {
         $stmt = $this->db->prepare("
             SELECT o.id,
@@ -68,7 +74,11 @@ class OrderController extends AbstractController
             ");
 
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $response = new JsonResponse();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
     /**

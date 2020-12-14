@@ -7,11 +7,11 @@ get_orders:
   methods: GET|POST
 
 get_order:
-  path: /order/getorder.{_format}
+  path: /order/getorder
   controller: App\Controller\OrderController::getOrder
   methods: GET|POST
 
 add_order:
-  path: /order/addorder.{_format}
+  path: /order/addorder
   controller: App\Controller\OrderController::addOrder
   methods: POST
