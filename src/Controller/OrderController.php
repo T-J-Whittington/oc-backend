@@ -30,11 +30,13 @@ class OrderController extends AbstractController
      */
     public function getOrders()
     {
+        //Common table expressions are much nicer than subqueries but unfortunately MAMP's MySQL is too old.
+        //It also refuses to accept PIPES_AS_CONCAT so here we are using functions like an animal.
         $stmt = $this->db->prepare("
             SELECT o.id,
-                   date,
-                   c.firstname || ' ' || c.lastname AS name,
-                   (
+                   DATE_FORMAT(date, '%d/%m/%Y') AS date,
+                   CONCAT(c.firstname, ' ', c.lastname) AS name,
+                   ( 
                        SELECT SUM(i.price) AS total
                        FROM order_details od
                             INNER JOIN inventory i on od.item_id = i.id
